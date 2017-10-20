@@ -11,25 +11,25 @@ import java.util.Properties;
 public class Demo {
 	public static int [][] arrays = new int[100][100];
 	public static String[] newwords = new String[100];
-	public static int place(String[] words , String word){
+	public static int place(String[] words, String word) {
 		int i;
-		for (i = 0 ; i < words.length ; i ++){
-			if (word.equalsIgnoreCase(words[i])){
+		for (i = 0; i < words.length; i++) {
+			if (word.equalsIgnoreCase(words[i])) {
 				return i;
 			}
 		}
 		return -1;
 	}
-	public static void showDirectedGraph(int[][] arrays , String[] newwords){
+	public static void showDirectedGraph(int[][] arrays, String[] newwords) {
 		Graphviz gv = new Graphviz();
 	    gv.addln(gv.start_graph());
 
 		System.out.println("展示有向图：");
-		int i , j;
+		int i, j;
 		//String result = "";
-		for (i = 0 ; i < arrays.length ; i ++){
-			for (j = 0 ; j < arrays.length ; j ++){
-				if (arrays[i][j] > 0){
+		for (i = 0; i < arrays.length; i++) {
+			for (j = 0; j < arrays.length; j++) {
+				if (arrays[i][j] > 0) {
 					gv.addln(newwords[i] + " -> " + newwords[j] + "[label = " + arrays[i][j] + "]" + ";");
 				}
 			}
@@ -37,192 +37,182 @@ public class Demo {
 		gv.addln(gv.end_graph());
 		String type = "png";
 		File out = new File("Graph." + type); 
-	    gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), type ), out );
+	    gv.writeGraphToFile(gv.getGraph(gv.getDotSource(), type), out);
 	}
-	public static String queryBridgeWords(String word1 , String word2){
-		int i , j = 0 , k , place1 , place2;
+	public static String queryBridgeWords(String word1, String word2){
+		int i, j = 0, k, place1, place2;
 		String[] bridgewords = new String[100];
 		String result = new String();
-		place1 = place(newwords , word1);
-		place2 = place(newwords , word2);
-		if (place1 != -1 && place2 != -1){
-			for (i = 0 ; i < newwords.length ; i ++){
-				if (arrays[place1][i] > 0){
-					if (arrays[i][place2] > 0){
+		place1 = place(newwords, word1);
+		place2 = place(newwords, word2);
+		if (place1 != -1 && place2 != -1) {
+			for (i = 0; i < newwords.length; i++) {
+				if (arrays[place1][i] > 0) {
+					if (arrays[i][place2] > 0) {
 						bridgewords[j] = newwords[i];
-						j ++;
+						j++;
 					}
 				}
 			}
-			if (j == 0 ){
+			if (j == 0) {
 				result = "No bridge words from \"" + word1 + "\" to \"" + word2 + "\"!";
 			}
-			else if (j == 1){
+			else if (j == 1) {
 				result = "The bridge words from \"" + word1 +  "\" to \"" + word2 + "\" is:" + bridgewords[0];
 			}
-			else if (j > 1){
+			else if (j > 1) {
 				result = "The bridge words from \"" + word1 + "\" to \"" + word2 + "\" are:";
-				for (k = 0 ; k < j - 1; k ++){
+				for (k = 0; k < j - 1; k++) {
 					result = result + bridgewords[k] + ",";
 				}
 				result = result + "and " + bridgewords[j - 1] + "\n";
 			}
 		}
-		else if (place1 != -1){
+		else if (place1 != -1) {
 			result = "No \"" + word2 + "\" in the graph!";
 		}
-		else if (place2 != -1){
+		else if (place2 != -1) {
 			result = result + "No \"" + word1 + "\" in the graph!";
 		}
-		else{
+		else {
 			result = result + "No \"" + word1 + "\" and \"" + word2 + "\" in the graph!";
 		}
 		return result;
 	}
-	public static String findBridgeWords(String word1 , String word2){
-		int i , j = 0 , k , place1 , place2;
+	public static String findBridgeWords(String word1, String word2) {
+		int i, j = 0, k, place1, place2;
 		String[] bridgewords = new String[100];
-		String result = new String();
-		place1 = place(newwords , word1);
-		place2 = place(newwords , word2);
-		if (place1 != -1 && place2 != -1){
-			for (i = 0 ; i < newwords.length ; i ++){
-				if (arrays[place1][i] > 0){
-					if (arrays[i][place2] > 0){
+		//String result = new String();
+		place1 = place(newwords, word1);
+		place2 = place(newwords, word2);
+		if (place1 != -1 && place2 != -1) {
+			for (i = 0; i < newwords.length; i++) {
+				if (arrays[place1][i] > 0) {
+					if (arrays[i][place2] > 0) {
 						bridgewords[j] = newwords[i];
-						j ++;
+						j++;
 					}
 				}
 			}
-			if (j == 0 ){
+			if (j == 0) {
 				return "#";
 			}
-			else if (j == 1){
+			else if (j == 1) {
 				return bridgewords[0];
 			}
-			else if (j > 1){
+			else if (j > 1) {
 				long t = System.currentTimeMillis();
 				Random rd = new Random(t);
-				k = (int)(rd.nextInt()*j);
+				k = (int) (rd.nextInt() * j);
 				return bridgewords[k];
 			}
 		}
-		else{
+		else {
 			return "#";
 		}
 		return "#";
 	}
-	public static String generateNewText(String inputText){
+	public static String generateNewText(String inputText) {
 		String newst = inputText.replaceAll("[\\p{Punct}]", " ");
 	    String news = newst.replaceAll("[^a-zA-Z\\s]", "");
 	    String[] newchars = news.split("\\s+");
 	    int i;
 	    String bw = new String();
-	    if (newchars.length == 1){
+	    if (newchars.length == 1) {
 	    	System.out.println(newchars[0]);
 	    	return "#";
 	    }
-	    for( i = 0 ; i < newchars.length - 1 ; i ++){
+	    for (i = 0; i < newchars.length - 1; i++) {
 	    	System.out.print(newchars[i] + " ");
-	    	bw = findBridgeWords(newchars[i] , newchars[i + 1]);
-	    	if (bw != "#"){
+	    	bw = findBridgeWords(newchars[i], newchars[i + 1]);
+	    	if (bw != "#") {
 	    		System.out.print(bw + " ");
 	    	}
 		}
 	    System.out.println(newchars[newchars.length - 1]);
 	    return "#";
 	}
-	public static String calcShortestPath(String word1 , String word2){
+	public static String calcShortestPath(String word1, String word2) {
 		int v = newwords.length;
 		int[][] P = new int[v][v];
 		int[][] A = new int[v][v];
-		int i , j , k;
-		for (i = 0 ; i < v ; i ++){
-			for (j = 0 ; j < v ; j ++){
-				if (arrays[i][j] == 0){
+		int i, j, k;
+		for (i = 0; i < v; i++) {
+			for (j = 0; j < v; j++) {
+				if (arrays[i][j] == 0) {
 					A[i][j] = 100;
-					P[i][j] = j;
 				}
-				else{
+				else {
 					A[i][j] = arrays[i][j];
-					P[i][j] = -1;
 				}
+				if (i==j)
+					A[i][j] =0;
+				P[i][j] = j;
 			}
 		}
-		for (k = 0 ; k < v ; k ++){
-			for (i = 0 ; i < v ; i ++){
-				for (j = 0 ; j < v ; j ++){
-					if (A[i][k] + A[k][j] < A[i][j]){
-						//System.out.println( A[i][k] + " " + A[k][j]);
+		for (k = 0; k < v; k++) {
+			for (i = 0; i < v; i++) {
+				for (j = 0; j < v; j++) {
+					if (A[i][k]!=100 && A[k][j] !=100 && A[i][k] + A[k][j] < A[i][j]) {
 						A[i][j] = A[i][k] + A[k][j];
-						P[i][j] = k;
-						
+						P[i][j] = P[i][k];
 					}
 				}
 			}
 		}
-		int bnf , enf , temp , pathvalue , sum = 0;
-		bnf = place(newwords , word1);
-		enf = place(newwords , word2);
-		if (bnf == -1 || enf == -1){
+		int bnf, enf, temp, pathvalue, sum = 0;
+		bnf = place(newwords, word1);
+		enf = place(newwords, word2);
+		if (bnf == -1 || enf == -1) {
 			System.out.println("单词不存在！！");
 			return "#";
 		}
-		if (bnf == enf){
-			System.out.println( "\n最短路径的长度为0" );
-			return "#";
-			
+		if (bnf == enf) {
+			System.out.println("\n最短路径的长度为0");
+			return "#";	
 		}
 		temp = P[bnf][enf];
 		pathvalue = bnf;
 	    Graphviz gv = new Graphviz();
 		gv.addln(gv.start_graph());
-		for (i = 0 ; i < newwords.length ; i ++){
-			for ( j = 0 ; j < newwords.length ;j ++){
-				if (arrays[i][j] > 0){
+		for (i = 0; i < newwords.length; i++) {
+			for (j = 0; j < newwords.length; j++) {
+				if (arrays[i][j] > 0) {
 					gv.addln(newwords[i] + " -> " + newwords[j] + "[label = " + arrays[i][j] + "]" + ";");
 				}
 			}
 		}
-		if (arrays[bnf][enf] > 0){
-	    	gv.addln(newwords[bnf] + " -> " + newwords[enf] + "[color = " + "\"blue\"" +"]" + ";");;
-	    	System.out.println(word1 + "->" + word2 + "\n最短路径长度为1");
+		if (arrays[bnf][enf] > 0) {
+	    	gv.addln(newwords[bnf] + " -> " + newwords[enf] + "[color = " + "\"blue\"" + "]" + ";");
+	    	System.out.println(word1 + "->" + word2 + "\n最短路径长度为"+arrays[bnf][enf]);
 	    	return "#";
 	    }
-	    int n = 0;
+		/*for (i=0;i<3;i++)
+		{
+			for (j=0;j<3;j++)
+				System.out.print(P[i][j]);
+			System.out.println();
+		}*/
+	    int n = 1;
 		int[] path = new int[newwords.length];
-	    if (temp != -1){
-	    	path[0] = bnf;
-	    	n ++;
-	    	int temp1 = temp;
-    		int[] oldpath = new int[newwords.length];
-    		int oldn = 1;
-    		while(temp1 != -1){
-    			oldpath[oldn] = temp1;
-		        temp1 = P[bnf][temp1];
-		        oldn ++;
-    		}
-    		for (i = 2; i <= oldn - 1 ; i ++){
-    			path[i - 1] = oldpath[oldn - i + 1];
-    		}
-    		n = oldn - 1;
-	    	while(temp != -1)
-		    {
-		        sum = sum + A[pathvalue][enf];
-		        path[n] = temp;
-		        temp = P[temp][enf];
-		        pathvalue = temp;
-		        n ++;
-		    }
+		temp=bnf;
+		path[0]=bnf;
+		while (P[temp][enf] != enf)
+	    {
+	        sum = sum + A[pathvalue][enf];
+	        temp = P[temp][enf];
+	        path[n] = temp;
+	        pathvalue = temp;
+	        n++;
 	    }
-	    if (sum == 0)
+	    if (P[bnf][enf]==enf)
 	    {
 	        System.out.println("不可达");
 	    }
-	    else{
-	    	path[n] = enf;
-	    	for (i = 0 ; i < n ; i ++){
-	    		gv.addln(newwords[path[i]] + " -> " + newwords[path[i + 1]] + "[color = " + "\"blue\"" +"]" + ";");;
+	    else {
+	    	path[n+1] = enf;
+	    	for (i = 0; i < n; i++) {
+	    		gv.addln(newwords[path[i]] + " -> " + newwords[path[i + 1]] + "[color = " + "\"blue\"" + "]" + ";");
 	    		System.out.print(newwords[path[i]] + " -> ");
 	    	}
 	    	System.out.println(newwords[enf]);
@@ -231,16 +221,15 @@ public class Demo {
 	    gv.addln(gv.end_graph());
 		String type = "png";
 		File out = new File("ShortestPath." + type); 
-	    gv.writeGraphToFile( gv.getGraph( gv.getDotSource(), type ), out );      
+	    gv.writeGraphToFile(gv.getGraph(gv.getDotSource(), type), out);      
 	    return "#";
 	}
 	public static String randomWalk() throws Exception {
-		 
-		 int [][] newarrays = new int[arrays.length][arrays.length];
-		 int i , j , k , kn , flag = 1;
+		 int[][] newarrays = new int[arrays.length][arrays.length];
+		 int i, j, k, kn;
 		 PrintWriter out = new PrintWriter("my.txt");
-		 for(i = 0 ; i < arrays.length ; i ++){
-			 for(j = 0 ; j < arrays.length ; j ++){
+		 for (i = 0; i < arrays.length; i++) {
+			 for (j = 0; j < arrays.length; j++) {
 				 newarrays[i][j] = arrays[i][j];
 			 }
 		 }
@@ -250,17 +239,17 @@ public class Demo {
 		 out.print(newwords[k] + " ");
 		 Scanner in = new Scanner(System.in);
 		 System.out.print("是否要继续(Y or N)?");
-		 String inpu = in.nextLine() ;
-		 while(inpu.equals("Y")){
-			 int [] lines = new int[arrays.length];
+		 String inpu = in.nextLine();
+		 while (inpu.equals("Y")) {
+			 int[] lines = new int[arrays.length];
 			 j = 0;
-			 for (i = 0 ; i < arrays.length ; i ++){
-				 if(newarrays[k][i] != 0){
+			 for (i = 0; i < arrays.length; i++) {
+				 if (newarrays[k][i] != 0) {
 					 lines[j] = i;
-					 j ++;
+					 j++;
 				 }
 			 }
-			 if (j == 0){
+			 if (j == 0) {
 				 System.out.print("已经没有路了！");
 				 break;
 			 }
@@ -269,31 +258,31 @@ public class Demo {
 		     out.print(newwords[lines[kn]] + " ");
 			 System.out.print("是否要继续(Y or N)?");
 			 String inp = in.nextLine();
-			 if(inp.equals("N")){
+			 if (inp.equals("N")) {
 				 break;
 			 }
-			 if (newarrays[k][lines[kn]] == -1){
+			 if (newarrays[k][lines[kn]] == -1) {
 				 break;
 			 }
-			 else{
+			 else {
 				 newarrays[k][lines[kn]] = -1;
 				 k = lines[kn];
 			 }
 		 }
+		 in.close();
 		 out.close();
 		 return "#";
 	}
-	public static void main(String[] args) throws Exception{
-    
+	public static void main(String[] args) throws Exception {
     Scanner in = new Scanner(System.in);
     System.out.println("Where?");
     String place = in.nextLine();
     System.out.println("What's your name?");
     String name = in.nextLine();
-    String newalpha ="";
+    String newalpha = "";
     File file = new File(place + name);
     Scanner input = new Scanner(file);
-    while (input.hasNext()){
+    while (input.hasNext()) {
     	String alpha = input.nextLine();
     	newalpha = newalpha + alpha + " ";
     }
@@ -303,32 +292,29 @@ public class Demo {
     String newnew = newstring.toLowerCase();
     String[] words = newnew.split("\\s+");
     int num = words.length;
-    int i , j , k , sign = 1 , number = 0;
+    int i, j, k, sign = 1, number = 0;
     newwords[0] = words[0];
-    for (i = 1 ; i < num ; i ++){
+    for (i = 1; i < num; i++) {
     	sign = 1;
-    	for (k = 0 ; k <= number ; k ++){
-    		if (newwords[k].equalsIgnoreCase(words[i])){
+    	for (k = 0; k <= number; k++) {
+    		if (newwords[k].equalsIgnoreCase(words[i])) {
     			sign = 0;
     		}
     	}
-    	if (sign == 1){
-    		number ++;
+    	if (sign == 1) {
+    		number++;
     		newwords[number] = words[i];
     	}
     }
-    	
-    for (i = 0 ; i < num - 1; i ++){
-    	j = place(newwords , words[i]);
-    	k = place(newwords , words[i + 1]);
-    	if (j != k){
-    		arrays[j][k] ++;
+    for (i = 0; i < num - 1; i++) {
+    	j = place(newwords, words[i]);
+    	k = place(newwords, words[i + 1]);
+    	if (j != k) {
+    		arrays[j][k]++;
     	}
-    	
-    place(newwords , "yy");	
+    place(newwords, "yy");	
     }
-    
-    while(true){
+    while (true) {
     	System.out.println("选择要选择的功能：");
     	System.out.println("1.展示有向图：");
     	System.out.println("2.查询桥接词：");
@@ -338,10 +324,10 @@ public class Demo {
     	System.out.println("6.退出");
     	System.out.println("请输入你的选择：");
     	int choice = in.nextInt();
-    	switch(choice){
+    	switch (choice) {
     	case 1:
     		System.out.println("1.展示有向图：");
-    		showDirectedGraph(arrays , newwords);
+    		showDirectedGraph(arrays, newwords);
     		break;
     	case 2:
     		System.out.println("2.查询桥接词：");
@@ -351,7 +337,7 @@ public class Demo {
     		String result = new String();
     		String newword1 = word1.toLowerCase();
     		String newword2 = word2.toLowerCase();
-    		result = queryBridgeWords(newword1 , newword2);
+    		result = queryBridgeWords(newword1, newword2);
     		System.out.println(result);
     		break;
     	case 3:
@@ -368,18 +354,17 @@ public class Demo {
     		String worded1 = in.next();
     		System.out.println("输入下一单词（若只有一个单词输入#）：");
     		String worded2 = in.next();
-    		if (worded2.equals("#")){
-    			int place0 = place(newwords , worded1);
-    			for (i = 0 ; i < number ; i ++){
-    				if (i != place0){
-    					calcShortestPath(worded1 , newwords[i]);
+    		if (worded2.equals("#")) {
+    			int place0 = place(newwords, worded1);
+    			for (i = 0; i < number; i++) {
+    				if (i != place0) {
+    					calcShortestPath(worded1, newwords[i]);
     				}
     			}
+    	}
+    		else {
+    			calcShortestPath(worded1, worded2);
     		}
-    		else{
-    			calcShortestPath(worded1 , worded2);
-    		}
-    		
     		break;
     	case 5:
     		System.out.println("5.随机游走：");
@@ -393,7 +378,7 @@ public class Demo {
     	default:
     		System.out.println("ERROR!");
     		System.exit(1);
-    	} 
+    } 
     }
 	}
-}//change oneth
+} //change oneth
