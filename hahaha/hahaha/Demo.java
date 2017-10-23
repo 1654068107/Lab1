@@ -26,7 +26,7 @@ public class Demo {
 
 		System.out.println("展示有向图：");
 		int i, j;
-		//String result = "";
+
 		for (i = 0; i < arrays.length; i++) {
 			for (j = 0; j < arrays.length; j++) {
 				if (arrays[i][j] > 0) {
@@ -36,7 +36,9 @@ public class Demo {
 		}
 		gv.addln(gv.end_graph());
 		String type = "png";
-		File out = new File("Graph." + type); 
+
+		File out = new File("Graph." + type);
+
 	    gv.writeGraphToFile(gv.getGraph(gv.getDotSource(), type), out);
 	}
 	public static String queryBridgeWords(String word1, String word2){
@@ -82,7 +84,6 @@ public class Demo {
 	public static String findBridgeWords(String word1, String word2) {
 		int i, j = 0, k, place1, place2;
 		String[] bridgewords = new String[100];
-		//String result = new String();
 		place1 = place(newwords, word1);
 		place2 = place(newwords, word2);
 		if (place1 != -1 && place2 != -1) {
@@ -169,7 +170,8 @@ public class Demo {
 		}
 		if (bnf == enf) {
 			System.out.println("\n最短路径的长度为0");
-			return "#";	
+			return "#";
+
 		}
 		temp = P[bnf][enf];
 		pathvalue = bnf;
@@ -187,12 +189,6 @@ public class Demo {
 	    	System.out.println(word1 + "->" + word2 + "\n最短路径长度为"+arrays[bnf][enf]);
 	    	return "#";
 	    }
-		/*for (i=0;i<3;i++)
-		{
-			for (j=0;j<3;j++)
-				System.out.print(P[i][j]);
-			System.out.println();
-		}*/
 	    int n = 1;
 		int[] path = new int[newwords.length];
 		temp=bnf;
@@ -220,8 +216,8 @@ public class Demo {
 	    }
 	    gv.addln(gv.end_graph());
 		String type = "png";
-		File out = new File("ShortestPath." + type); 
-	    gv.writeGraphToFile(gv.getGraph(gv.getDotSource(), type), out);      
+		File out = new File("ShortestPath." + type);
+	    gv.writeGraphToFile(gv.getGraph(gv.getDotSource(), type), out);
 	    return "#";
 	}
 	public static String randomWalk() throws Exception {
@@ -312,7 +308,7 @@ public class Demo {
     	if (j != k) {
     		arrays[j][k]++;
     	}
-    place(newwords, "yy");	
+    place(newwords, "yy");
     }
     while (true) {
     	System.out.println("选择要选择的功能：");
@@ -378,7 +374,8 @@ public class Demo {
     	default:
     		System.out.println("ERROR!");
     		System.exit(1);
-    } 
+
+    }
     }
 	}
-} //change oneth
+}
