@@ -3,7 +3,7 @@ package hahaha;
 //GraphViz.java - a simple API to call dot from Java programs
 /*$Id$*/
 /*
-***********************************************************************************
+******************************************************************************
 *                                                                            *
 *              (c) Copyright 2003 Laszlo Szathmary                           *
 *                                                                            *
@@ -21,7 +21,7 @@ package hahaha;
 * along with this program; if not, write to the Free Software Foundation,    *
 * Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                              *
 *                                                                            *
-********************************************************************************
+******************************************************************************
 */
 
 import java.io.BufferedReader;

@@ -45,6 +45,7 @@ public class Demo {
 		String result = new String();
 		place1 = place(newwords , word1);
 		place2 = place(newwords , word2);
+		System.out.println(place1 + place2);
 		if (place1 != -1 && place2 != -1){
 			for (i = 0 ; i < newwords.length ; i ++){
 				if (arrays[place1][i] > 0){
@@ -95,22 +96,29 @@ public class Demo {
 				}
 			}
 			if (j == 0 ){
-				return "#";
+				result = "No bridge words from \"" + word1 + "\" to \"" + word2 + "\"!";
 			}
 			else if (j == 1){
-				return bridgewords[0];
+				result = "The bridge words from \"" + word1 +  "\" to \"" + word2 + "\" is:" + bridgewords[0];
 			}
 			else if (j > 1){
-				long t = System.currentTimeMillis();
-				Random rd = new Random(t);
-				k = (int)(rd.nextInt()*j);
-				return bridgewords[k];
+				result = "The bridge words from \"" + word1 + "\" to \"" + word2 + "\" are:";
+				for (k = 0 ; k < j - 1; k ++){
+					result = result + bridgewords[k] + ",";
+				}
+				result = result + "and " + bridgewords[j - 1] + "\n";
 			}
 		}
-		else{
-			return "#";
+		else if (place1 != -1){
+			result = "No \"" + word2 + "\" in the graph!";
 		}
-		return "#";
+		else if (place2 != -1){
+			result = result + "No \"" + word1 + "\" in the graph!";
+		}
+		else{
+			result = result + "No \"" + word1 + "\" and \"" + word2 + "\" in the graph!";
+		}
+		return result;
 	}
 	public static String generateNewText(String inputText){
 		String newst = inputText.replaceAll("[\\p{Punct}]", " ");
@@ -287,9 +295,12 @@ public class Demo {
     
     Scanner in = new Scanner(System.in);
     System.out.println("Where?");
-    String place = in.nextLine();
+    //String place = in.nextLine();
+    String place = "D:\\";
     System.out.println("What's your name?");
-    String name = in.nextLine();
+    
+    //String name = in.nextLine();
+    String name = "score.txt";
     String newalpha ="";
     File file = new File(place + name);
     Scanner input = new Scanner(file);
@@ -396,4 +407,4 @@ public class Demo {
     	} 
     }
 	}
-}//change oneth
+}
