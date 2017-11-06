@@ -9,8 +9,10 @@ import java.lang.reflect.Array;
 import java.util.Properties;
 
 public class Demo {
+	
 	public static int [][] arrays = new int[100][100];
 	public static String[] newwords = new String[100];
+	public static int len = 0;
 	public static int place(String[] words , String word){
 		int i;
 		for (i = 0 ; i < words.length ; i ++){
@@ -19,6 +21,15 @@ public class Demo {
 			}
 		}
 		return -1;
+	}
+	public static int len(String[] words){
+		int i;
+		for (i = 0 ; i < words.length ; i ++){
+			if (words[i] == null || words[i].length() <= 0){
+				return i;
+			}
+		}
+		return i;
 	}
 	public static void showDirectedGraph(int[][] arrays , String[] newwords){
 		Graphviz gv = new Graphviz();
@@ -243,16 +254,21 @@ public class Demo {
 	    return "#";
 	}
 	public static String randomWalk() throws Exception {
-		 
-		 int [][] newarrays = new int[arrays.length][arrays.length];
+		 int num = len(newwords);
+		 if (num == 0){
+			 System.out.println("图为空！！");
+			 return null;
+		 }
+		 int [][] newarrays = new int[num][num];
 		 int i , j , k , kn , flag = 1;
 		 PrintWriter out = new PrintWriter("my.txt");
-		 for(i = 0 ; i < arrays.length ; i ++){
-			 for(j = 0 ; j < arrays.length ; j ++){
+		 //System.out.println(arrays.size);
+		 for(i = 0 ; i < num ; i ++){
+			 for(j = 0 ; j < num ; j ++){
 				 newarrays[i][j] = arrays[i][j];
 			 }
 		 }
-		 j = arrays.length;
+		 j = num;
 		 java.util.Random r = new java.util.Random();
 		 k = r.nextInt(j);
 		 out.print(newwords[k] + " ");
@@ -260,9 +276,9 @@ public class Demo {
 		 System.out.print("是否要继续(Y or N)?");
 		 String inpu = in.nextLine() ;
 		 while(inpu.equals("Y")){
-			 int [] lines = new int[arrays.length];
+			 int [] lines = new int[num];
 			 j = 0;
-			 for (i = 0 ; i < arrays.length ; i ++){
+			 for (i = 0 ; i < num ; i ++){
 				 if(newarrays[k][i] != 0){
 					 lines[j] = i;
 					 j ++;
@@ -281,6 +297,7 @@ public class Demo {
 				 break;
 			 }
 			 if (newarrays[k][lines[kn]] == -1){
+				 System.out.println("路径重复");
 				 break;
 			 }
 			 else{
@@ -295,12 +312,11 @@ public class Demo {
     
     Scanner in = new Scanner(System.in);
     System.out.println("Where?");
-    //String place = in.nextLine();
-    String place = "D:\\";
+    String place = in.nextLine();
     System.out.println("What's your name?");
     
-    //String name = in.nextLine();
-    String name = "score.txt";
+    String name = in.nextLine();
+    //String name = "score.txt";
     String newalpha ="";
     File file = new File(place + name);
     Scanner input = new Scanner(file);
@@ -328,7 +344,7 @@ public class Demo {
     		newwords[number] = words[i];
     	}
     }
-    	
+    len = number;
     for (i = 0 ; i < num - 1; i ++){
     	j = place(newwords , words[i]);
     	k = place(newwords , words[i + 1]);
