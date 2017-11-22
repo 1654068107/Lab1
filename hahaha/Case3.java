@@ -19,13 +19,11 @@ public class Case3 {
 	public void testrandomWalk() throws Exception {
         Demo demo = new Demo();
 		
-		int [][] array  = demo.arrays;
-		String[] newword = demo.newwords;
+        int [][] array  = matric.arrays;
+		String[] newword = stringarrays.newwords;
 		Scanner in = new Scanner(System.in);
-	    String place = "D:\\";
-	    String name = "score1.txt";
 	    String newalpha ="";
-	    File file = new File(place + name);
+	    File file = new File("D:\\score1.txt");
 	    
 	    Scanner input = new Scanner(file);
 	    while (input.hasNext()){
@@ -61,7 +59,7 @@ public class Case3 {
 	    		array[j][k] ++;
 	    	}
 	    }
-	    demo.randomWalk();
+	    randomWalk.randomWalk();
 	}
 
 }

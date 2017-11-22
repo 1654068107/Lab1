@@ -19,8 +19,8 @@ public class Case4 {
 	public void testRandomWalk() throws Exception {
         Demo demo = new Demo();
 		
-		int [][] array  = demo.arrays;
-		String[] newword = demo.newwords;
+        int [][] array  = matric.arrays;
+		String[] newword = stringarrays.newwords;
 	    //int len = demo.len;
 		Scanner in = new Scanner(System.in);
 	    String place = "D:\\";
@@ -61,7 +61,7 @@ public class Case4 {
 	    		array[j][k] ++;
 	    	}
 	    }
-	    demo.randomWalk();
+	    randomWalk.randomWalk();
 	}
 
 }

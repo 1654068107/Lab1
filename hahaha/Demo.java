@@ -10,8 +10,8 @@ import java.util.Properties;
 
 public class Demo {
 	
-	public static int [][] arrays = new int[100][100];
-	public static String[] newwords = new String[100];
+	//public static int [][] arrays = new int[100][100];
+	//public static String[] newwords = new String[100];
 	public static int len = 0;
 	public static int place(String[] words , String word){
 		int i;
@@ -31,7 +31,7 @@ public class Demo {
 		}
 		return i;
 	}
-	public static void showDirectedGraph(int[][] arrays , String[] newwords){
+	/*public static void showDirectedGraph(int[][] arrays , String[] newwords){
 		Graphviz gv = new Graphviz();
 	    gv.addln(gv.start_graph());
 
@@ -92,45 +92,38 @@ public class Demo {
 		return result;
 	}
 	public static String findBridgeWords(String word1 , String word2){
-		int i , j = 0 , k , place1 , place2;
-		String[] bridgewords = new String[100];
-		String result = new String();
-		place1 = place(newwords , word1);
-		place2 = place(newwords , word2);
-		if (place1 != -1 && place2 != -1){
-			for (i = 0 ; i < newwords.length ; i ++){
-				if (arrays[place1][i] > 0){
-					if (arrays[i][place2] > 0){
-						bridgewords[j] = newwords[i];
-						j ++;
-					}
-				}
-			}
-			if (j == 0 ){
-				result = "No bridge words from \"" + word1 + "\" to \"" + word2 + "\"!";
-			}
-			else if (j == 1){
-				result = "The bridge words from \"" + word1 +  "\" to \"" + word2 + "\" is:" + bridgewords[0];
-			}
-			else if (j > 1){
-				result = "The bridge words from \"" + word1 + "\" to \"" + word2 + "\" are:";
-				for (k = 0 ; k < j - 1; k ++){
-					result = result + bridgewords[k] + ",";
-				}
-				result = result + "and " + bridgewords[j - 1] + "\n";
-			}
-		}
-		else if (place1 != -1){
-			result = "No \"" + word2 + "\" in the graph!";
-		}
-		else if (place2 != -1){
-			result = result + "No \"" + word1 + "\" in the graph!";
-		}
-		else{
-			result = result + "No \"" + word1 + "\" and \"" + word2 + "\" in the graph!";
-		}
-		return result;
-	}
+		int i, j = 0, k, place1, place2; 
+		String[] bridgewords = new String[100]; 
+		place1 = place(newwords, word1); 
+		place2 = place(newwords, word2); 
+		if (place1 != -1 && place2 != -1) { 
+		for (i = 0; i < newwords.length; i++) { 
+ 				if (arrays[place1][i] > 0) { 
+ 					if (arrays[i][place2] > 0) { 
+ 						bridgewords[j] = newwords[i]; 
+ 						j++;  					
+ 					} 
+ 				} 
+ 			} 
+		if (j == 0) { 
+ 				return "#"; 
+ 		} 
+		else if (j == 1) { 
+ 				return bridgewords[0]; 
+ 			} 
+ 			else if (j > 1) { 
+ 				long t = System.currentTimeMillis(); 
+ 				Random rd = new Random(t); 
+ 				k = (int) (rd.nextInt() * j); 
+ 				return bridgewords[k]; 
+ 			} 
+ 		} 
+ 		else { 
+ 			return "#"; 
+ 		} 
+ 		return "#"; 
+ 	} 
+
 	public static String generateNewText(String inputText){
 		String newst = inputText.replaceAll("[\\p{Punct}]", " ");
 	    String news = newst.replaceAll("[^a-zA-Z\\s]", "");
@@ -307,9 +300,10 @@ public class Demo {
 		 }
 		 out.close();
 		 return "#";
-	}
+	}*/
 	public static void main(String[] args) throws Exception{
-    
+    String[] newwords = stringarrays.newwords;
+    String[] words = stringarrays.words;
     Scanner in = new Scanner(System.in);
     System.out.println("Where?");
     String place = in.nextLine();
@@ -328,7 +322,7 @@ public class Demo {
     String newstr = newalpha.replaceAll("[\\p{Punct}]", " ");
     String newstring = newstr.replaceAll("[^a-zA-Z\\s]", "");
     String newnew = newstring.toLowerCase();
-    String[] words = newnew.split("\\s+");
+    words = newnew.split("\\s+");
     int num = words.length;
     int i , j , k , sign = 1 , number = 0;
     newwords[0] = words[0];
@@ -345,16 +339,15 @@ public class Demo {
     	}
     }
     len = number;
-    for (i = 0 ; i < num - 1; i ++){
+    //int[][] arrays = null;
+	for (i = 0 ; i < num - 1; i ++){
     	j = place(newwords , words[i]);
     	k = place(newwords , words[i + 1]);
     	if (j != k){
-    		arrays[j][k] ++;
+    		matric.arrays[j][k] ++;
     	}
     	
-    place(newwords , "yy");	
     }
-    
     while(true){
     	System.out.println("选择要选择的功能：");
     	System.out.println("1.展示有向图：");
@@ -368,7 +361,7 @@ public class Demo {
     	switch(choice){
     	case 1:
     		System.out.println("1.展示有向图：");
-    		showDirectedGraph(arrays , newwords);
+    		showDirectedGraph.showDirectedGraph(matric.arrays , stringarrays.newwords);
     		break;
     	case 2:
     		System.out.println("2.查询桥接词：");
@@ -378,7 +371,7 @@ public class Demo {
     		String result = new String();
     		String newword1 = word1.toLowerCase();
     		String newword2 = word2.toLowerCase();
-    		result = queryBridgeWords(newword1 , newword2);
+    		result = queryBridgeWords.queryBridgeWords(newword1 , newword2);
     		System.out.println(result);
     		break;
     	case 3:
@@ -386,7 +379,7 @@ public class Demo {
     		System.out.println("Please input:");
     		in.nextLine();
     		String newin = in.nextLine();
-    		generateNewText(newin);
+    		generateNewText.generateNewText(newin);
     		break;
     	case 4:
     		System.out.println(num);
@@ -396,21 +389,21 @@ public class Demo {
     		System.out.println("输入下一单词（若只有一个单词输入#）：");
     		String worded2 = in.next();
     		if (worded2.equals("#")){
-    			int place0 = place(newwords , worded1);
+    			int place0 = place(stringarrays.newwords , worded1);
     			for (i = 0 ; i < number ; i ++){
     				if (i != place0){
-    					calcShortestPath(worded1 , newwords[i]);
+    					calcShortestPath.calcShortestPath(worded1 , stringarrays.newwords[i]);
     				}
     			}
     		}
     		else{
-    			calcShortestPath(worded1 , worded2);
+    			calcShortestPath.calcShortestPath(worded1 , worded2);
     		}
     		
     		break;
     	case 5:
     		System.out.println("5.随机游走：");
-    	 	randomWalk();
+    	 	randomWalk.randomWalk();
     	 	break;
     	case 6:
     		System.out.println("结束！");

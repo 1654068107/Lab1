@@ -19,8 +19,8 @@ public class TestCase2 {
 	public void testFindBridgeWords() throws IOException{
         Demo demo = new Demo();
 		
-		int [][] array  = demo.arrays;
-		String[] newword = demo.newwords;
+        int [][] array  = matric.arrays;
+		String[] newword = stringarrays.newwords;
 		Scanner in = new Scanner(System.in);
 	    String place = "D:\\";
 	    String name = "score.txt";
@@ -62,7 +62,7 @@ public class TestCase2 {
 	    	}
 	    }
 		
-		System.out.println(demo.findBridgeWords("what", "i"));
+		System.out.println(queryBridgeWords.queryBridgeWords("what", "i"));
 	}
 
 }
